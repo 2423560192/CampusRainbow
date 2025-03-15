@@ -19,21 +19,21 @@ def custom_exception_handler(exc, context):
 
 def success_response(data=None, message="请求成功", code=200):
     """
-    成功响应格式化函数
+    标准成功响应
     """
     return Response({
-        'status': 'success',
-        'code': code,
-        'message': message,
-        'data': data or {}
-    })
+        "status": "success",
+        "code": code,
+        "message": message,
+        "data": data or {}
+    }, status=code)
 
 def error_response(message="请求失败", code=400):
     """
-    错误响应格式化函数
+    标准错误响应
     """
     return Response({
-        'status': 'error',
-        'code': code,
-        'message': message
+        "status": "error",
+        "code": code,
+        "message": message
     }, status=code) 
