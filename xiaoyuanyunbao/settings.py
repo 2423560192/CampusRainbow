@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # 第三方应用
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 
     # 自定义应用
     'apps.user',
@@ -149,3 +150,6 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+# 在文件末尾添加
+APPEND_SLASH = False
