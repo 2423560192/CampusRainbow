@@ -35,11 +35,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # 自定义应用
-    'apps.authentication',
+    'apps.user',
     'apps.personal_growth',
     'apps.campus_planning',
     'apps.virtual_study_room',
     'apps.life_assistant',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # 自定义用户模型
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'user.User'
 
 # REST Framework 设置
 REST_FRAMEWORK = {
