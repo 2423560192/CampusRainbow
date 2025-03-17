@@ -1,26 +1,39 @@
 # 个人提升模块模型 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Plan(models.Model):
     """
-    学习计划模型
+    学习计划模型（番茄任务）
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='plans', verbose_name="用户")
+    STATUS_CHOICES = (
+        ('pending', '待开始'),
+        ('active', '进行中'),
+        ('paused', '已暂停'),
+        ('completed', '已完成'),
+    )
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plans', verbose_name="用户")
     task_name = models.CharField(max_length=100, verbose_name="任务名称")
-    focus_time = models.IntegerField(verbose_name="专注时长(分钟)")
-    rest_time = models.IntegerField(verbose_name="休息时长(分钟)")
-    savings_amount = models.FloatField(null=True, blank=True, verbose_name="存钱金额")
-    completed_focus_time = models.IntegerField(default=0, verbose_name="已完成专注时长(分钟)")
-    unlocked_savings = models.FloatField(default=0.0, verbose_name="已解锁存钱金额")
-    is_completed = models.BooleanField(default=False, verbose_name="是否完成")
+    focus_time = models.PositiveIntegerField(verbose_name="专注时长(分钟)")
+    rest_time = models.PositiveIntegerField(verbose_name="休息时长(分钟)")
+    savings_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="存钱金额")
+    completed_focus_time = models.PositiveIntegerField(default=0, verbose_name="已完成专注时长(分钟)")
+    unlocked_savings = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="已解锁金额")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', verbose_name="状态")
+    scheduled_date = models.DateField(default=timezone.now, verbose_name="计划执行日期")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新时间")
+    start_time = models.DateTimeField(null=True, blank=True, verbose_name='开始时间')
     
     class Meta:
         verbose_name = "学习计划"
         verbose_name_plural = verbose_name
-        ordering = ['-created_at']
+        ordering = ['scheduled_date', '-created_at']
     
     def __str__(self):
         return f"{self.user.username}的{self.task_name}计划"
