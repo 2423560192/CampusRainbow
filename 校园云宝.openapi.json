@@ -1,0 +1,5356 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "校园云宝",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "任务管理"
+    },
+    {
+      "name": "AI 计划"
+    },
+    {
+      "name": "任务处理"
+    },
+    {
+      "name": "资源管理"
+    },
+    {
+      "name": "情绪分析"
+    },
+    {
+      "name": "语音助手"
+    },
+    {
+      "name": "自动化任务"
+    },
+    {
+      "name": "校园规划模块"
+    },
+    {
+      "name": "用户模块"
+    }
+  ],
+  "paths": {
+    "/tasks": {
+      "get": {
+        "summary": "获取任务列表",
+        "deprecated": false,
+        "description": "获取当前用户的所有任务",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "任务状态过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "in_progress",
+                "completed",
+                "cancelled"
+              ],
+              "default": "pending"
+            }
+          },
+          {
+            "name": "priority",
+            "in": "query",
+            "description": "任务优先级过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "low",
+                "medium",
+                "high"
+              ],
+              "default": "medium"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取任务列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "tasks": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "task_id": {
+                                "type": "string",
+                                "examples": [
+                                  "task123"
+                                ]
+                              },
+                              "title": {
+                                "type": "string",
+                                "examples": [
+                                  "完成数学作业"
+                                ]
+                              },
+                              "description": {
+                                "type": "string",
+                                "examples": [
+                                  "完成教科书第5章的练习题"
+                                ]
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "pending",
+                                  "in_progress",
+                                  "completed",
+                                  "cancelled"
+                                ],
+                                "examples": [
+                                  "pending"
+                                ]
+                              },
+                              "priority": {
+                                "type": "string",
+                                "enum": [
+                                  "low",
+                                  "medium",
+                                  "high"
+                                ],
+                                "examples": [
+                                  "high"
+                                ]
+                              },
+                              "due_date": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-15T12:00:00Z"
+                                ]
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T09:30:00Z"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            5
+                          ]
+                        },
+                        "page": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "per_page": {
+                          "type": "integer",
+                          "examples": [
+                            10
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "创建新任务",
+        "deprecated": false,
+        "description": "为当前用户创建一个新任务",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "任务标题",
+                    "examples": [
+                      "完成数学作业"
+                    ]
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "任务描述",
+                    "examples": [
+                      "完成教科书第5章的练习题"
+                    ]
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "description": "任务优先级",
+                    "default": "medium",
+                    "examples": [
+                      "high"
+                    ]
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "截止日期",
+                    "examples": [
+                      "2023-06-15T12:00:00Z"
+                    ]
+                  },
+                  "estimated_time": {
+                    "type": "integer",
+                    "description": "预计完成时间（分钟）",
+                    "examples": [
+                      60
+                    ]
+                  },
+                  "subtasks": {
+                    "type": "array",
+                    "description": "子任务列表",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "做练习1-5"
+                          ]
+                        },
+                        "estimated_time": {
+                          "type": "integer",
+                          "examples": [
+                            15
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "title"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "任务创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        201
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务创建成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "完成数学作业"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "examples": [
+                            "pending"
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:30:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/tasks/{task_id}": {
+      "get": {
+        "summary": "获取任务详情",
+        "deprecated": false,
+        "description": "获取特定任务的详细信息",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取任务详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "完成数学作业"
+                          ]
+                        },
+                        "description": {
+                          "type": "string",
+                          "examples": [
+                            "完成教科书第5章的练习题"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "pending",
+                            "in_progress",
+                            "completed",
+                            "cancelled"
+                          ],
+                          "examples": [
+                            "pending"
+                          ]
+                        },
+                        "priority": {
+                          "type": "string",
+                          "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                          ],
+                          "examples": [
+                            "high"
+                          ]
+                        },
+                        "due_date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-15T12:00:00Z"
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:30:00Z"
+                          ]
+                        },
+                        "estimated_time": {
+                          "type": "integer",
+                          "examples": [
+                            60
+                          ]
+                        },
+                        "actual_time": {
+                          "type": "integer",
+                          "examples": [
+                            45
+                          ]
+                        },
+                        "subtasks": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "subtask_id": {
+                                "type": "string",
+                                "examples": [
+                                  "subtask456"
+                                ]
+                              },
+                              "title": {
+                                "type": "string",
+                                "examples": [
+                                  "做练习1-5"
+                                ]
+                              },
+                              "is_completed": {
+                                "type": "boolean",
+                                "examples": [
+                                  false
+                                ]
+                              },
+                              "estimated_time": {
+                                "type": "integer",
+                                "examples": [
+                                  15
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新任务",
+        "deprecated": false,
+        "description": "更新特定任务的信息",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "任务标题",
+                    "examples": [
+                      "完成高级数学作业"
+                    ]
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "任务描述",
+                    "examples": [
+                      "完成教科书第5-6章的练习题"
+                    ]
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "in_progress",
+                      "completed",
+                      "cancelled"
+                    ],
+                    "description": "任务状态",
+                    "examples": [
+                      "in_progress"
+                    ]
+                  },
+                  "priority": {
+                    "type": "string",
+                    "enum": [
+                      "low",
+                      "medium",
+                      "high"
+                    ],
+                    "description": "任务优先级",
+                    "examples": [
+                      "high"
+                    ]
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "截止日期",
+                    "examples": [
+                      "2023-06-20T12:00:00Z"
+                    ]
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "任务更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务更新成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "完成高级数学作业"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "examples": [
+                            "in_progress"
+                          ]
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-12T15:45:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "删除任务",
+        "deprecated": false,
+        "description": "删除特定任务",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "任务删除成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务删除成功"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/tasks/{task_id}/start": {
+      "post": {
+        "summary": "开始任务计时",
+        "deprecated": false,
+        "description": "启动指定任务的计时，专注结束后提示存钱进度。",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "task123"
+              ]
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "start_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "开始时间（可选，默认当前时间，格式为 ISO 8601）",
+                    "examples": [
+                      "2025-03-17T10:00:00Z"
+                    ]
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "计时启动成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "examples": [
+                            "active"
+                          ]
+                        },
+                        "start_time": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2025-03-17T10:00:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未找到"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "409": {
+            "description": "任务已启动或已完成",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        409
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "任务已启动或已完成"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/tasks/{task_id}/pause": {
+      "post": {
+        "summary": "暂停或重启任务",
+        "deprecated": false,
+        "description": "暂停或重启指定任务的计时。",
+        "tags": [
+          "任务管理"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "task123"
+              ]
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "pause",
+                      "resume"
+                    ],
+                    "description": "操作类型",
+                    "examples": [
+                      "pause"
+                    ]
+                  }
+                },
+                "required": [
+                  "action"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "操作成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "examples": [
+                            "paused"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未找到"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/generate_plan": {
+      "post": {
+        "summary": "AI 生成学习计划",
+        "deprecated": false,
+        "description": "根据目标和时间范围生成结构化计划，按日期/周/长期分配。",
+        "tags": [
+          "AI 计划"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "goal_description": {
+                    "type": "string",
+                    "description": "目标描述",
+                    "examples": [
+                      "三个月过四级"
+                    ]
+                  },
+                  "time_range": {
+                    "type": "string",
+                    "description": "时间范围，格式为 'YYYY-MM-DD至YYYY-MM-DD'",
+                    "examples": [
+                      "2025-03-17至2025-06-17"
+                    ]
+                  },
+                  "granularity": {
+                    "type": "string",
+                    "description": "时间粒度（可选，'day'/'week'/'long-term'，默认 'week'）",
+                    "enum": [
+                      "day",
+                      "week",
+                      "long-term"
+                    ],
+                    "examples": [
+                      "day"
+                    ]
+                  },
+                  "current_level": {
+                    "type": "string",
+                    "description": "当前水平（可选）",
+                    "examples": [
+                      "词汇量2000"
+                    ]
+                  }
+                },
+                "required": [
+                  "goal_description",
+                  "time_range"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "计划生成成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "generated_plan": {
+                          "type": "object",
+                          "description": "结构化计划",
+                          "examples": [
+                            {
+                              "2025-03-17": [
+                                {
+                                  "task_name": "背50单词",
+                                  "focus_time": 25,
+                                  "rest_time": 5,
+                                  "savings_amount": 2
+                                }
+                              ]
+                            }
+                          ],
+                          "properties": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/analyze_plan": {
+      "post": {
+        "summary": "分析单独输入的计划",
+        "deprecated": false,
+        "description": "解析文本计划，生成任务板块并分配到日期/周。",
+        "tags": [
+          "AI 计划"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "plan_text": {
+                    "type": "string",
+                    "description": "计划文本",
+                    "examples": [
+                      "每天背50单词，持续1小时"
+                    ]
+                  },
+                  "granularity": {
+                    "type": "string",
+                    "description": "时间粒度（可选，'day'/'week'/'long-term'，默认 'day'）",
+                    "enum": [
+                      "day",
+                      "week",
+                      "long-term"
+                    ],
+                    "examples": [
+                      "day"
+                    ]
+                  }
+                },
+                "required": [
+                  "plan_text"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "分析成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "generated_plan": {
+                          "type": "object",
+                          "description": "结构化计划",
+                          "examples": [
+                            {
+                              "2025-03-17": [
+                                {
+                                  "task_name": "背50单词",
+                                  "focus_time": 30,
+                                  "rest_time": 5
+                                }
+                              ]
+                            }
+                          ],
+                          "properties": {}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/ai/plans/{plan_id}": {
+      "get": {
+        "summary": "获取学习计划详情",
+        "deprecated": false,
+        "description": "获取特定学习计划的详细信息",
+        "tags": [
+          "AI 计划"
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "description": "学习计划ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取学习计划详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "plan_id": {
+                          "type": "string",
+                          "examples": [
+                            "plan123"
+                          ]
+                        },
+                        "subject": {
+                          "type": "string",
+                          "examples": [
+                            "高等数学"
+                          ]
+                        },
+                        "goal": {
+                          "type": "string",
+                          "examples": [
+                            "期末考试90分以上"
+                          ]
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date",
+                          "examples": [
+                            "2023-06-15"
+                          ]
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date",
+                          "examples": [
+                            "2023-07-20"
+                          ]
+                        },
+                        "daily_schedules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "date": {
+                                "type": "string",
+                                "format": "date",
+                                "examples": [
+                                  "2023-06-15"
+                                ]
+                              },
+                              "tasks": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "examples": [
+                                        "学习导数基本概念"
+                                      ]
+                                    },
+                                    "duration_minutes": {
+                                      "type": "integer",
+                                      "examples": [
+                                        60
+                                      ]
+                                    },
+                                    "completed": {
+                                      "type": "boolean",
+                                      "examples": [
+                                        false
+                                      ]
+                                    },
+                                    "resources": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string",
+                                        "examples": [
+                                          "教材第3章第1节",
+                                          "推荐视频教程链接"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "total_hours": {
+                                "type": "number",
+                                "format": "float",
+                                "examples": [
+                                  2.5
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "milestones": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "examples": [
+                                  "完成导数部分学习"
+                                ]
+                              },
+                              "target_date": {
+                                "type": "string",
+                                "format": "date",
+                                "examples": [
+                                  "2023-06-30"
+                                ]
+                              },
+                              "description": {
+                                "type": "string",
+                                "examples": [
+                                  "掌握导数的概念、计算方法和应用"
+                                ]
+                              },
+                              "completed": {
+                                "type": "boolean",
+                                "examples": [
+                                  false
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "progress": {
+                          "type": "number",
+                          "format": "float",
+                          "examples": [
+                            35.5
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:30:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "学习计划不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "学习计划不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新学习计划",
+        "deprecated": false,
+        "description": "更新特定学习计划的信息或进度",
+        "tags": [
+          "AI 计划"
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "description": "学习计划ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "goal": {
+                    "type": "string",
+                    "description": "更新学习目标",
+                    "examples": [
+                      "期末考试95分以上"
+                    ]
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "更新截止日期",
+                    "examples": [
+                      "2023-07-25"
+                    ]
+                  },
+                  "daily_task_updates": {
+                    "type": "array",
+                    "description": "更新每日任务完成状态",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date",
+                          "examples": [
+                            "2023-06-15"
+                          ]
+                        },
+                        "task_index": {
+                          "type": "integer",
+                          "examples": [
+                            0
+                          ]
+                        },
+                        "completed": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "milestone_updates": {
+                    "type": "array",
+                    "description": "更新里程碑完成状态",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "milestone_index": {
+                          "type": "integer",
+                          "examples": [
+                            0
+                          ]
+                        },
+                        "completed": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "学习计划更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "学习计划更新成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "plan_id": {
+                          "type": "string",
+                          "examples": [
+                            "plan123"
+                          ]
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-16T14:30:00Z"
+                          ]
+                        },
+                        "progress": {
+                          "type": "number",
+                          "format": "float",
+                          "examples": [
+                            40
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "学习计划不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "学习计划不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "删除学习计划",
+        "deprecated": false,
+        "description": "删除特定学习计划",
+        "tags": [
+          "AI 计划"
+        ],
+        "parameters": [
+          {
+            "name": "plan_id",
+            "in": "path",
+            "description": "学习计划ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "学习计划删除成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "学习计划删除成功"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "学习计划不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "学习计划不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/fragment_tasks": {
+      "post": {
+        "summary": "任务碎片化",
+        "deprecated": false,
+        "description": "将指定任务拆解为 5-15 分钟的微任务。",
+        "tags": [
+          "任务处理"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_id": {
+                    "type": "string",
+                    "description": "目标任务ID",
+                    "examples": [
+                      "task123"
+                    ]
+                  },
+                  "fragment_time": {
+                    "type": "integer",
+                    "description": "碎片化时长（分钟），范围 5-15",
+                    "examples": [
+                      10
+                    ]
+                  }
+                },
+                "required": [
+                  "task_id",
+                  "fragment_time"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "碎片化成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "task_id": {
+                            "type": "string",
+                            "examples": [
+                              "task124"
+                            ]
+                          },
+                          "task_name": {
+                            "type": "string",
+                            "examples": [
+                              "复习数学（碎片1）"
+                            ]
+                          },
+                          "focus_time": {
+                            "type": "integer",
+                            "examples": [
+                              10
+                            ]
+                          },
+                          "rest_time": {
+                            "type": "integer",
+                            "examples": [
+                              5
+                            ]
+                          },
+                          "scheduled_date": {
+                            "type": "string",
+                            "format": "date",
+                            "examples": [
+                              "2025-03-17"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未找到"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/resources/recommend": {
+      "get": {
+        "summary": "自动推荐学习资源",
+        "deprecated": false,
+        "description": "根据当前任务推荐适合碎片化学习的短时资源。",
+        "tags": [
+          "资源管理"
+        ],
+        "parameters": [
+          {
+            "name": "current_task",
+            "in": "query",
+            "description": "当前任务名称，长度 1-100 字符",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "examples": [
+                "数学复习"
+              ]
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取资源列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "resources_list": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "description": "资源标题",
+                                "examples": [
+                                  "5分钟数学微课"
+                                ]
+                              },
+                              "duration": {
+                                "type": "string",
+                                "description": "资源时长",
+                                "examples": [
+                                  "5分钟"
+                                ]
+                              },
+                              "url": {
+                                "type": "string",
+                                "description": "资源链接",
+                                "examples": [
+                                  "http://example.com/math-micro-lesson"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/resources/{resource_id}/favorite": {
+      "post": {
+        "summary": "收藏学习资源",
+        "deprecated": false,
+        "description": "用户收藏推荐的学习资源。",
+        "tags": [
+          "资源管理"
+        ],
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "description": "资源ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "res123"
+              ]
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "收藏成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "resource_id": {
+                          "type": "string",
+                          "examples": [
+                            "res123"
+                          ]
+                        },
+                        "favorited": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "资源未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未找到"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/emotions/analysis": {
+      "post": {
+        "summary": "情绪分析",
+        "deprecated": false,
+        "description": "分析用户学习过程中的情绪状态",
+        "tags": [
+          "情绪分析"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string",
+                    "description": "番茄钟会话ID（可选）",
+                    "examples": [
+                      "pomodoro123"
+                    ]
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "用户文本输入，用于分析情绪",
+                    "examples": [
+                      "今天学习很疲惫，感觉学不进去了"
+                    ]
+                  },
+                  "image_data": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "用户面部表情图像数据，用于分析情绪"
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "情绪分析成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "情绪分析成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "analysis_id": {
+                          "type": "string",
+                          "examples": [
+                            "emotion123"
+                          ]
+                        },
+                        "primary_emotion": {
+                          "type": "string",
+                          "enum": [
+                            "happy",
+                            "sad",
+                            "angry",
+                            "frustrated",
+                            "tired",
+                            "neutral",
+                            "anxious",
+                            "focused"
+                          ],
+                          "examples": [
+                            "tired"
+                          ]
+                        },
+                        "emotion_scores": {
+                          "type": "object",
+                          "properties": {
+                            "happy": {
+                              "type": "number",
+                              "format": "float",
+                              "examples": [
+                                0.05
+                              ]
+                            },
+                            "sad": {
+                              "type": "number",
+                              "format": "float",
+                              "examples": [
+                                0.15
+                              ]
+                            },
+                            "angry": {
+                              "type": "number",
+                              "format": "float",
+                              "examples": [
+                                0.1
+                              ]
+                            },
+                            "frustrated": {
+                              "type": "number",
+                              "format": "float",
+                              "examples": [
+                                0.25
+                              ]
+                            },
+                            "tired": {
+                              "type": "number",
+                              "format": "float",
+                              "examples": [
+                                0.45
+                              ]
+                            }
+                          }
+                        },
+                        "recommendation": {
+                          "type": "string",
+                          "examples": [
+                            "检测到你可能有些疲惫了，建议休息10分钟，出去走走或喝杯水，然后再继续学习"
+                          ]
+                        },
+                        "recommendation_type": {
+                          "type": "string",
+                          "enum": [
+                            "break",
+                            "technique_change",
+                            "motivation",
+                            "environment_change",
+                            "focus"
+                          ],
+                          "examples": [
+                            "break"
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T11:30:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/emotions/history": {
+      "get": {
+        "summary": "获取情绪分析历史",
+        "deprecated": false,
+        "description": "获取用户情绪分析的历史记录",
+        "tags": [
+          "情绪分析"
+        ],
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "开始日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "结束日期",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取情绪分析历史",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "emotions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "analysis_id": {
+                                "type": "string",
+                                "examples": [
+                                  "emotion123"
+                                ]
+                              },
+                              "primary_emotion": {
+                                "type": "string",
+                                "examples": [
+                                  "tired"
+                                ]
+                              },
+                              "session_id": {
+                                "type": "string",
+                                "examples": [
+                                  "pomodoro123"
+                                ]
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T11:30:00Z"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "emotion_summary": {
+                          "type": "object",
+                          "properties": {
+                            "most_frequent": {
+                              "type": "string",
+                              "examples": [
+                                "focused"
+                              ]
+                            },
+                            "frequency": {
+                              "type": "object",
+                              "properties": {
+                                "happy": {
+                                  "type": "integer",
+                                  "examples": [
+                                    5
+                                  ]
+                                },
+                                "sad": {
+                                  "type": "integer",
+                                  "examples": [
+                                    2
+                                  ]
+                                },
+                                "tired": {
+                                  "type": "integer",
+                                  "examples": [
+                                    8
+                                  ]
+                                },
+                                "focused": {
+                                  "type": "integer",
+                                  "examples": [
+                                    15
+                                  ]
+                                }
+                              }
+                            },
+                            "trend": {
+                              "type": "string",
+                              "examples": [
+                                "您的学习状态整体表现良好，但近期疲劳感有所增加"
+                              ]
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            30
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/voice/assistant": {
+      "post": {
+        "summary": "语音助手控制任务",
+        "deprecated": false,
+        "description": "通过语音创建计划或开始计时。",
+        "tags": [
+          "语音助手"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "voice_command": {
+                    "type": "string",
+                    "description": "语音指令，长度 1-200 字符",
+                    "examples": [
+                      "开始25分钟数学复习"
+                    ]
+                  }
+                },
+                "required": [
+                  "voice_command"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "指令执行成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "execution_result": {
+                          "type": "string",
+                          "description": "执行结果",
+                          "examples": [
+                            "计时界面已启动"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/tasks/auto_execute": {
+      "post": {
+        "summary": "设置自动执行任务",
+        "deprecated": false,
+        "description": "开启自动模式，到指定时间自动开始任务。",
+        "tags": [
+          "自动化任务"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_plan": {
+                    "type": "object",
+                    "properties": {
+                      "time": {
+                        "type": "string",
+                        "description": "执行时间，格式为 HH:MM",
+                        "examples": [
+                          "10:00"
+                        ]
+                      },
+                      "task": {
+                        "type": "string",
+                        "description": "任务名称，长度 1-100 字符",
+                        "examples": [
+                          "复习数学"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "time",
+                      "task"
+                    ]
+                  },
+                  "auto_execute_switch": {
+                    "type": "boolean",
+                    "description": "自动执行开关",
+                    "examples": [
+                      true
+                    ]
+                  },
+                  "reminder_minutes": {
+                    "type": "integer",
+                    "description": "提前提醒时间（分钟，范围 0-60，可选）",
+                    "examples": [
+                      5
+                    ]
+                  },
+                  "scheduled_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "计划执行日期（可选，格式为 YYYY-MM-DD，默认今日）",
+                    "examples": [
+                      "2025-03-17"
+                    ]
+                  }
+                },
+                "required": [
+                  "task_plan",
+                  "auto_execute_switch"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "自动执行已设置",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "examples": [
+                            "自动任务已设置"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/tasks/auto_execute/{task_id}/cancel": {
+      "post": {
+        "summary": "取消自动执行任务",
+        "deprecated": false,
+        "description": "取消指定自动执行任务。",
+        "tags": [
+          "自动化任务"
+        ],
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "description": "任务ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string",
+              "examples": [
+                "task123"
+              ]
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取消成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "auto_execute_switch": {
+                          "type": "boolean",
+                          "examples": [
+                            false
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "任务未找到",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未找到"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/pomodoro/sessions": {
+      "post": {
+        "summary": "创建番茄钟会话",
+        "deprecated": false,
+        "description": "创建一个新的番茄钟学习会话",
+        "tags": [
+          "任务处理"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "task_id": {
+                    "type": "string",
+                    "description": "关联的任务ID（可选）",
+                    "examples": [
+                      "task123"
+                    ]
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "会话标题（无关联任务时必填）",
+                    "examples": [
+                      "数学学习"
+                    ]
+                  },
+                  "focus_minutes": {
+                    "type": "integer",
+                    "description": "专注时长（分钟）",
+                    "default": 25,
+                    "examples": [
+                      25
+                    ]
+                  },
+                  "break_minutes": {
+                    "type": "integer",
+                    "description": "休息时长（分钟）",
+                    "default": 5,
+                    "examples": [
+                      5
+                    ]
+                  },
+                  "long_break_minutes": {
+                    "type": "integer",
+                    "description": "长休息时长（分钟）",
+                    "default": 15,
+                    "examples": [
+                      15
+                    ]
+                  },
+                  "long_break_interval": {
+                    "type": "integer",
+                    "description": "长休息间隔（几个番茄钟后进行长休息）",
+                    "default": 4,
+                    "examples": [
+                      4
+                    ]
+                  },
+                  "planned_pomodoros": {
+                    "type": "integer",
+                    "description": "计划完成的番茄钟数量",
+                    "examples": [
+                      8
+                    ]
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "番茄钟会话创建成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        201
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "番茄钟会话创建成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "session_id": {
+                          "type": "string",
+                          "examples": [
+                            "pomodoro123"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "数学学习"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "created",
+                            "in_progress",
+                            "paused",
+                            "completed"
+                          ],
+                          "examples": [
+                            "created"
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:30:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "获取番茄钟会话列表",
+        "deprecated": false,
+        "description": "获取用户的番茄钟会话历史记录",
+        "tags": [
+          "任务处理"
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "会话状态过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created",
+                "in_progress",
+                "paused",
+                "completed"
+              ],
+              "default": "completed"
+            }
+          },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "开始日期过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "结束日期过滤",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取番茄钟会话列表",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "sessions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "session_id": {
+                                "type": "string",
+                                "examples": [
+                                  "pomodoro123"
+                                ]
+                              },
+                              "title": {
+                                "type": "string",
+                                "examples": [
+                                  "数学学习"
+                                ]
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "created",
+                                  "in_progress",
+                                  "paused",
+                                  "completed"
+                                ],
+                                "examples": [
+                                  "completed"
+                                ]
+                              },
+                              "completed_pomodoros": {
+                                "type": "integer",
+                                "examples": [
+                                  6
+                                ]
+                              },
+                              "planned_pomodoros": {
+                                "type": "integer",
+                                "examples": [
+                                  8
+                                ]
+                              },
+                              "total_focus_time": {
+                                "type": "integer",
+                                "description": "总专注时间（分钟）",
+                                "examples": [
+                                  150
+                                ]
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T09:30:00Z"
+                                ]
+                              },
+                              "completed_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T13:45:00Z"
+                                ]
+                              }
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "examples": [
+                            12
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/pomodoro/sessions/{session_id}": {
+      "get": {
+        "summary": "获取番茄钟会话详情",
+        "deprecated": false,
+        "description": "获取特定番茄钟会话的详细信息",
+        "tags": [
+          "任务处理"
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "番茄钟会话ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功获取番茄钟会话详情",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "请求成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "session_id": {
+                          "type": "string",
+                          "examples": [
+                            "pomodoro123"
+                          ]
+                        },
+                        "title": {
+                          "type": "string",
+                          "examples": [
+                            "数学学习"
+                          ]
+                        },
+                        "task_id": {
+                          "type": "string",
+                          "examples": [
+                            "task123"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "created",
+                            "in_progress",
+                            "paused",
+                            "completed"
+                          ],
+                          "examples": [
+                            "completed"
+                          ]
+                        },
+                        "focus_minutes": {
+                          "type": "integer",
+                          "examples": [
+                            25
+                          ]
+                        },
+                        "break_minutes": {
+                          "type": "integer",
+                          "examples": [
+                            5
+                          ]
+                        },
+                        "long_break_minutes": {
+                          "type": "integer",
+                          "examples": [
+                            15
+                          ]
+                        },
+                        "long_break_interval": {
+                          "type": "integer",
+                          "examples": [
+                            4
+                          ]
+                        },
+                        "completed_pomodoros": {
+                          "type": "integer",
+                          "examples": [
+                            6
+                          ]
+                        },
+                        "planned_pomodoros": {
+                          "type": "integer",
+                          "examples": [
+                            8
+                          ]
+                        },
+                        "total_focus_time": {
+                          "type": "integer",
+                          "description": "总专注时间（分钟）",
+                          "examples": [
+                            150
+                          ]
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:30:00Z"
+                          ]
+                        },
+                        "completed_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T13:45:00Z"
+                          ]
+                        },
+                        "pomodoro_records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "pomodoro_number": {
+                                "type": "integer",
+                                "examples": [
+                                  1
+                                ]
+                              },
+                              "start_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T09:30:00Z"
+                                ]
+                              },
+                              "end_time": {
+                                "type": "string",
+                                "format": "date-time",
+                                "examples": [
+                                  "2023-06-10T09:55:00Z"
+                                ]
+                              },
+                              "actual_duration": {
+                                "type": "integer",
+                                "description": "实际持续时间（分钟）",
+                                "examples": [
+                                  25
+                                ]
+                              },
+                              "is_completed": {
+                                "type": "boolean",
+                                "examples": [
+                                  true
+                                ]
+                              },
+                              "notes": {
+                                "type": "string",
+                                "examples": [
+                                  "完成了导数部分的学习"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "番茄钟会话不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "番茄钟会话不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新番茄钟会话状态",
+        "deprecated": false,
+        "description": "更新特定番茄钟会话的状态（开始、暂停、完成等）",
+        "tags": [
+          "任务处理"
+        ],
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "path",
+            "description": "番茄钟会话ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "start",
+                      "pause",
+                      "resume",
+                      "complete",
+                      "cancel"
+                    ],
+                    "description": "操作类型",
+                    "examples": [
+                      "start"
+                    ]
+                  },
+                  "current_pomodoro": {
+                    "type": "integer",
+                    "description": "当前番茄钟序号",
+                    "examples": [
+                      1
+                    ]
+                  },
+                  "notes": {
+                    "type": "string",
+                    "description": "番茄钟笔记（完成时可添加）",
+                    "examples": [
+                      "完成了导数部分的学习"
+                    ]
+                  }
+                },
+                "required": [
+                  "action"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "番茄钟会话状态更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "success"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        200
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "番茄钟会话状态更新成功"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "session_id": {
+                          "type": "string",
+                          "examples": [
+                            "pomodoro123"
+                          ]
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "created",
+                            "in_progress",
+                            "paused",
+                            "completed"
+                          ],
+                          "examples": [
+                            "in_progress"
+                          ]
+                        },
+                        "current_pomodoro": {
+                          "type": "integer",
+                          "examples": [
+                            1
+                          ]
+                        },
+                        "next_phase": {
+                          "type": "string",
+                          "enum": [
+                            "focus",
+                            "short_break",
+                            "long_break"
+                          ],
+                          "examples": [
+                            "focus"
+                          ]
+                        },
+                        "remaining_seconds": {
+                          "type": "integer",
+                          "examples": [
+                            1500
+                          ]
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "2023-06-10T09:31:00Z"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        400
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "参数错误"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        401
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "未授权"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "404": {
+            "description": "番茄钟会话不存在",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "examples": [
+                        "error"
+                      ]
+                    },
+                    "code": {
+                      "type": "integer",
+                      "examples": [
+                        404
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": [
+                        "番茄钟会话不存在"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/register": {
+      "post": {
+        "summary": "用户注册",
+        "deprecated": false,
+        "description": "新用户注册账号。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名",
+                    "examples": [
+                      "user123"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码",
+                    "examples": [
+                      "password123"
+                    ]
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "邮箱",
+                    "examples": [
+                      "user@example.com"
+                    ]
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "电话号码（可选）",
+                    "examples": [
+                      "13812345678"
+                    ]
+                  }
+                },
+                "required": [
+                  "username",
+                  "password",
+                  "email"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "注册成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "examples": [
+                            201
+                          ]
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "user_id": {
+                              "type": "string",
+                              "description": "用户ID",
+                              "examples": [
+                                "1"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "用户登录",
+        "deprecated": false,
+        "description": "用户登录并获取访问令牌和刷新令牌。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名",
+                    "examples": [
+                      "user123"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码",
+                    "examples": [
+                      "password123"
+                    ]
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "登录成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "access_token": {
+                              "type": "string",
+                              "description": "访问令牌",
+                              "examples": [
+                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                              ]
+                            },
+                            "refresh_token": {
+                              "type": "string",
+                              "description": "刷新令牌",
+                              "examples": [
+                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "登录失败，用户名或密码错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/logout": {
+      "post": {
+        "summary": "用户登出",
+        "deprecated": false,
+        "description": "用户登出，注销访问令牌。需要提供刷新令牌。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh_token": {
+                    "type": "string",
+                    "description": "刷新令牌",
+                    "examples": [
+                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    ]
+                  }
+                },
+                "required": [
+                  "refresh_token"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "登出成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "message": {
+                              "type": "string",
+                              "examples": [
+                                "已登出"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权，登录校验失败",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/profile": {
+      "get": {
+        "summary": "获取用户信息",
+        "deprecated": false,
+        "description": "返回当前登录用户的详细信息。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "获取成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "user_id": {
+                              "type": "string",
+                              "examples": [
+                                "1"
+                              ]
+                            },
+                            "username": {
+                              "type": "string",
+                              "examples": [
+                                "user123"
+                              ]
+                            },
+                            "email": {
+                              "type": "string",
+                              "examples": [
+                                "user@example.com"
+                              ]
+                            },
+                            "phone": {
+                              "type": "string",
+                              "examples": [
+                                "13812345678"
+                              ]
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "examples": [
+                                "http://example.com/avatar.jpg"
+                              ]
+                            },
+                            "bio": {
+                              "type": "string",
+                              "examples": [
+                                "喜欢学习的高三学生"
+                              ]
+                            },
+                            "is_verified": {
+                              "type": "boolean",
+                              "examples": [
+                                true
+                              ]
+                            },
+                            "student_id": {
+                              "type": "string",
+                              "examples": [
+                                "20210101"
+                              ]
+                            },
+                            "university": {
+                              "type": "string",
+                              "examples": [
+                                "北京大学"
+                              ]
+                            },
+                            "major": {
+                              "type": "string",
+                              "examples": [
+                                "计算机科学"
+                              ]
+                            },
+                            "grade": {
+                              "type": "string",
+                              "examples": [
+                                "大一"
+                              ]
+                            },
+                            "total_focus_time": {
+                              "type": "integer",
+                              "examples": [
+                                3600
+                              ]
+                            },
+                            "total_savings": {
+                              "type": "number",
+                              "examples": [
+                                1000.5
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "更新用户信息",
+        "deprecated": false,
+        "description": "更新当前登录用户的个人信息。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "新邮箱（可选）",
+                    "examples": [
+                      "newuser@example.com"
+                    ]
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "新电话号码（可选）",
+                    "examples": [
+                      "13987654321"
+                    ]
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "description": "新头像 URL（可选）",
+                    "examples": [
+                      "http://example.com/newavatar.jpg"
+                    ]
+                  },
+                  "bio": {
+                    "type": "string",
+                    "description": "新个人简介（可选）",
+                    "examples": [
+                      "热爱编程的学生"
+                    ]
+                  },
+                  "student_id": {
+                    "type": "string",
+                    "description": "学号（可选）",
+                    "examples": [
+                      "20210102"
+                    ]
+                  },
+                  "university": {
+                    "type": "string",
+                    "description": "学校（可选）",
+                    "examples": [
+                      "清华大学"
+                    ]
+                  },
+                  "major": {
+                    "type": "string",
+                    "description": "专业（可选）",
+                    "examples": [
+                      "软件工程"
+                    ]
+                  },
+                  "grade": {
+                    "type": "string",
+                    "description": "年级（可选）",
+                    "examples": [
+                      "大二"
+                    ]
+                  }
+                }
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "更新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/SuccessResponse"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "user_id": {
+                              "type": "string",
+                              "examples": [
+                                "1"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "请求参数错误",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "未授权",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/user/token/refresh": {
+      "post": {
+        "summary": "刷新访问令牌",
+        "deprecated": false,
+        "description": "使用刷新令牌获取新的访问令牌。",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
+            "schema": {
+              "type": "string",
+              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh": {
+                    "type": "string",
+                    "description": "刷新令牌",
+                    "examples": [
+                      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    ]
+                  }
+                },
+                "required": [
+                  "refresh"
+                ]
+              },
+              "example": ""
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "刷新成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access": {
+                      "type": "string",
+                      "description": "新的访问令牌",
+                      "examples": [
+                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "description": "刷新令牌无效或已过期",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "examples": [
+              "success"
+            ]
+          },
+          "code": {
+            "type": "integer",
+            "examples": [
+              200
+            ]
+          },
+          "message": {
+            "type": "string",
+            "examples": [
+              "请求成功"
+            ]
+          },
+          "data": {
+            "type": "object",
+            "properties": {}
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "examples": [
+              "error"
+            ]
+          },
+          "code": {
+            "type": "integer",
+            "examples": [
+              400
+            ]
+          },
+          "message": {
+            "type": "string",
+            "examples": [
+              "请求失败"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}

@@ -155,6 +155,8 @@ class AutoTask(models.Model):
     execution_time = models.CharField(max_length=100, verbose_name="执行时间")
     repeat_pattern = models.CharField(max_length=100, blank=True, null=True, verbose_name="重复模式")
     is_active = models.BooleanField(default=True, verbose_name="是否激活")
+    reminder_minutes = models.PositiveIntegerField(default=5, verbose_name="提前提醒时间(分钟)")
+    scheduled_date = models.DateField(default=timezone.now, verbose_name="计划执行日期")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     
     class Meta:
@@ -163,4 +165,58 @@ class AutoTask(models.Model):
         ordering = ['execution_time']
     
     def __str__(self):
-        return f"{self.user.username}的自动任务: {self.task_description}" 
+        return f"{self.user.username}的自动任务: {self.task_description}"
+
+class PomodoroSession(models.Model):
+    """
+    番茄钟会话模型
+    """
+    STATUS_CHOICES = (
+        ('created', '已创建'),
+        ('in_progress', '进行中'),
+        ('paused', '已暂停'),
+        ('completed', '已完成'),
+    )
+    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='pomodoro_sessions', verbose_name="用户")
+    task = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True, blank=True, related_name='pomodoro_sessions', verbose_name="关联任务")
+    title = models.CharField(max_length=100, verbose_name="会话标题")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='created', verbose_name="状态")
+    focus_minutes = models.IntegerField(default=25, verbose_name="专注时长(分钟)")
+    break_minutes = models.IntegerField(default=5, verbose_name="休息时长(分钟)")
+    long_break_minutes = models.IntegerField(default=15, verbose_name="长休息时长(分钟)")
+    long_break_interval = models.IntegerField(default=4, verbose_name="长休息间隔")
+    completed_pomodoros = models.IntegerField(default=0, verbose_name="已完成番茄钟数量")
+    planned_pomodoros = models.IntegerField(default=0, verbose_name="计划番茄钟数量")
+    total_focus_time = models.IntegerField(default=0, verbose_name="总专注时长(分钟)")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    completed_at = models.DateTimeField(null=True, blank=True, verbose_name="完成时间")
+    
+    class Meta:
+        verbose_name = "番茄钟会话"
+        verbose_name_plural = verbose_name
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.user.username}的{self.title}会话"
+
+class PomodoroRecord(models.Model):
+    """
+    番茄钟记录模型
+    """
+    session = models.ForeignKey(PomodoroSession, on_delete=models.CASCADE, related_name='pomodoro_records', verbose_name="会话")
+    pomodoro_number = models.IntegerField(verbose_name="番茄钟序号")
+    start_time = models.DateTimeField(verbose_name="开始时间")
+    end_time = models.DateTimeField(null=True, blank=True, verbose_name="结束时间")
+    actual_duration = models.IntegerField(default=0, verbose_name="实际持续时间(分钟)")
+    is_completed = models.BooleanField(default=False, verbose_name="是否完成")
+    notes = models.TextField(blank=True, null=True, verbose_name="笔记")
+    
+    class Meta:
+        verbose_name = "番茄钟记录"
+        verbose_name_plural = verbose_name
+        ordering = ['session', 'pomodoro_number']
+        unique_together = ['session', 'pomodoro_number']
+    
+    def __str__(self):
+        return f"{self.session.title}的第{self.pomodoro_number}个番茄钟" 
