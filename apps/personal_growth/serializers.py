@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from .models import Plan, AIGeneratedPlan, FragmentTask, LearningResource, EmotionRecord, VoiceCommand, AutoTask, PomodoroRecord, PomodoroSession
 from django.utils.dateparse import parse_date
+from django.utils import timezone
 
 
 class PlanSerializer(serializers.ModelSerializer):
@@ -168,6 +169,8 @@ class AIGeneratedPlanSerializer(serializers.ModelSerializer):
         model = AIGeneratedPlan
         fields = ('goal_description', 'time_range', 'current_level', 'plan_content')
         extra_kwargs = {
+            'goal_description': {'required': True},
+            'time_range': {'required': True},
             'current_level': {'required': False},
             'plan_content': {'required': False}
         }
@@ -304,19 +307,44 @@ class VoiceCommandSerializer(serializers.ModelSerializer):
 
 class AutoTaskSerializer(serializers.ModelSerializer):
     """自动执行任务序列化器"""
-    task_plan = serializers.JSONField(write_only=True)
-    auto_execute_switch = serializers.BooleanField(write_only=True)
+    task_plan = serializers.JSONField(required=True)
+    auto_execute_switch = serializers.BooleanField(required=True)
+    reminder_minutes = serializers.IntegerField(required=False, default=5)
+    scheduled_date = serializers.DateField(required=False)
 
     class Meta:
         model = AutoTask
         fields = (
-        'task_description', 'execution_time', 'repeat_pattern', 'is_active', 'task_plan', 'auto_execute_switch')
+            'task_description', 'execution_time', 'repeat_pattern', 'is_active', 
+            'task_plan', 'auto_execute_switch', 'reminder_minutes', 'scheduled_date'
+        )
         read_only_fields = ('task_description', 'execution_time', 'repeat_pattern', 'is_active')
+
+    def validate_task_plan(self, value):
+        """验证task_plan格式"""
+        if not isinstance(value, dict):
+            try:
+                # 尝试将字符串转换为字典
+                if isinstance(value, str):
+                    import json
+                    value = json.loads(value)
+            except Exception as e:
+                raise serializers.ValidationError(f"task_plan必须是有效的JSON对象: {str(e)}")
+        
+        # 检查必要的键
+        if 'task' not in value:
+            raise serializers.ValidationError("task_plan必须包含'task'字段")
+        if 'time' not in value:
+            raise serializers.ValidationError("task_plan必须包含'time'字段")
+            
+        return value
 
     def create(self, validated_data):
         user = self.context['request'].user
         task_plan = validated_data.pop('task_plan')
         auto_execute_switch = validated_data.pop('auto_execute_switch')
+        reminder_minutes = validated_data.pop('reminder_minutes', 5)
+        scheduled_date = validated_data.pop('scheduled_date', timezone.now().date())
 
         task_description = task_plan.get('task', '')
         execution_time = task_plan.get('time', '')
@@ -325,7 +353,9 @@ class AutoTaskSerializer(serializers.ModelSerializer):
             user=user,
             task_description=task_description,
             execution_time=execution_time,
-            is_active=auto_execute_switch
+            is_active=auto_execute_switch,
+            reminder_minutes=reminder_minutes,
+            scheduled_date=scheduled_date
         )
 
 
@@ -376,7 +406,22 @@ class PomodoroSessionCreateSerializer(serializers.ModelSerializer):
         task = None
         if task_id:
             try:
-                task = Plan.objects.get(id=task_id, user=user)
+                # 先尝试将task_id转为整数查询
+                numeric_id = None
+                try:
+                    numeric_id = int(task_id)
+                except (ValueError, TypeError):
+                    pass
+                
+                if numeric_id is not None:
+                    task = Plan.objects.get(id=numeric_id, user=user)
+                else:
+                    # 如果不是数字ID，默认选择第一个任务（用于演示）
+                    # 实际应用中可能需要更复杂的逻辑
+                    task = Plan.objects.filter(user=user).first()
+                    if not task:
+                        raise Plan.DoesNotExist
+                
                 # 如果没有提供title，使用任务名称作为标题
                 if not validated_data.get('title'):
                     validated_data['title'] = task.task_name

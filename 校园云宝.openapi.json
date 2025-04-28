@@ -2,36 +2,43 @@
   "openapi": "3.0.1",
   "info": {
     "title": "校园云宝",
-    "description": "",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "description": "支持校园智能学习与生活的助手"
   },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "本地开发服务器"
+    },
+    {
+      "url": "https://api.xiaoyuanyunbao.com",
+      "description": "生产环境"
+    }
+  ],
   "tags": [
     {
-      "name": "任务管理"
+      "name": "任务管理",
+      "description": "任务创建与管理相关的接口"
     },
     {
-      "name": "AI 计划"
+      "name": "智能规划",
+      "description": "AI辅助的时间和任务规划接口"
     },
     {
-      "name": "任务处理"
+      "name": "任务处理",
+      "description": "任务处理相关接口"
     },
     {
-      "name": "资源管理"
+      "name": "资源管理",
+      "description": "资源管理相关接口"
     },
     {
-      "name": "情绪分析"
+      "name": "情感分析",
+      "description": "情感分析相关接口"
     },
     {
-      "name": "语音助手"
-    },
-    {
-      "name": "自动化任务"
-    },
-    {
-      "name": "校园规划模块"
-    },
-    {
-      "name": "用户模块"
+      "name": "用户模块",
+      "description": "用户相关接口"
     }
   ],
   "paths": {
@@ -73,16 +80,6 @@
                 "high"
               ],
               "default": "medium"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -245,18 +242,7 @@
         "tags": [
           "任务管理"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -481,16 +467,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -710,16 +686,6 @@
             "example": "",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -957,16 +923,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -1087,16 +1043,6 @@
               "examples": [
                 "task123"
               ]
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -1294,16 +1240,6 @@
                 "task123"
               ]
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "requestBody": {
@@ -1453,20 +1389,9 @@
         "deprecated": false,
         "description": "根据目标和时间范围生成结构化计划，按日期/周/长期分配。",
         "tags": [
-          "AI 计划"
+          "AI规划"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1611,20 +1536,9 @@
         "deprecated": false,
         "description": "解析文本计划，生成任务板块并分配到日期/周。",
         "tags": [
-          "AI 计划"
+          "AI规划"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1753,7 +1667,7 @@
         "deprecated": false,
         "description": "获取特定学习计划的详细信息",
         "tags": [
-          "AI 计划"
+          "AI规划"
         ],
         "parameters": [
           {
@@ -1764,16 +1678,6 @@
             "example": "",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -2021,7 +1925,7 @@
         "deprecated": false,
         "description": "更新特定学习计划的信息或进度",
         "tags": [
-          "AI 计划"
+          "AI规划"
         ],
         "parameters": [
           {
@@ -2032,16 +1936,6 @@
             "example": "",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -2279,7 +2173,7 @@
         "deprecated": false,
         "description": "删除特定学习计划",
         "tags": [
-          "AI 计划"
+          "AI规划"
         ],
         "parameters": [
           {
@@ -2290,16 +2184,6 @@
             "example": "",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -2409,18 +2293,7 @@
         "tags": [
           "任务处理"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2608,16 +2481,6 @@
                 "数学复习"
               ]
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -2742,16 +2605,6 @@
                 "res123"
               ]
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -2844,20 +2697,9 @@
         "deprecated": false,
         "description": "分析用户学习过程中的情绪状态",
         "tags": [
-          "情绪分析"
+          "情感分析"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3086,7 +2928,7 @@
         "deprecated": false,
         "description": "获取用户情绪分析的历史记录",
         "tags": [
-          "情绪分析"
+          "情感分析"
         ],
         "parameters": [
           {
@@ -3107,16 +2949,6 @@
             "schema": {
               "type": "string",
               "format": "date"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -3285,18 +3117,7 @@
         "tags": [
           "语音助手"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3406,18 +3227,7 @@
         "tags": [
           "自动化任务"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3578,16 +3388,6 @@
                 "task123"
               ]
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -3682,18 +3482,7 @@
         "tags": [
           "任务处理"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3935,16 +3724,6 @@
               "type": "string",
               "format": "date"
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "responses": {
@@ -4107,16 +3886,6 @@
             "example": "",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
             }
           }
         ],
@@ -4373,16 +4142,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
           }
         ],
         "requestBody": {
@@ -4618,18 +4377,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4737,18 +4485,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4842,18 +4579,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -4942,18 +4668,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "获取成功",
@@ -5079,18 +4794,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -5225,18 +4929,7 @@
         "tags": [
           "用户模块"
         ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "",
-            "example": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM",
-            "schema": {
-              "type": "string",
-              "default": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ1NzIyODU0LCJpYXQiOjE3NDU2MzY0NTQsImp0aSI6IjBlYzFjZmE4ZmMzYjRmMDdiNTFjYjhlNDY5ZDA0MmNlIiwidXNlcl9pZCI6MX0.4RlQ1fSyD4x-YKUsszWdjQf2876VinUUkXWZhrYMWkM"
-            }
-          }
-        ],
+        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
