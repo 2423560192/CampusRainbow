@@ -1,6 +1,9 @@
 from rest_framework.views import exception_handler
 from rest_framework.response import Response
 
+# Import and re-export the get_task_result function
+from .utils.celery_utils import get_task_result
+
 def custom_exception_handler(exc, context):
     """
     自定义异常处理器，确保所有响应格式一致

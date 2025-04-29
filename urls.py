@@ -13,4 +13,6 @@ urlpatterns = [
     path('', include('apps.virtual_study_room.urls')),
     # 生活助手模块
     path('', include('apps.life_assistant.urls')),
+    # 核心功能（任务状态等）
+    path('api/', include('core.urls')),
 ] 

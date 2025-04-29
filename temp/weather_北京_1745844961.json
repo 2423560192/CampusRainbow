@@ -1,0 +1,56 @@
+{
+  "location": "北京",
+  "coordinates": {
+    "lat": 21.18698746430173,
+    "lon": 92.8320836723835
+  },
+  "current": {
+    "temperature": "34°C",
+    "weather": "阴",
+    "humidity": "35%",
+    "wind_speed": "3 km/h",
+    "updated_at": "2025-04-28 20:56:01"
+  },
+  "forecast": [
+    {
+      "date": "2025-04-29",
+      "max_temp": "27°C",
+      "min_temp": "20°C",
+      "weather": "小雨",
+      "humidity": "36%",
+      "wind_speed": "9 km/h"
+    },
+    {
+      "date": "2025-04-30",
+      "max_temp": "30°C",
+      "min_temp": "22°C",
+      "weather": "多云",
+      "humidity": "42%",
+      "wind_speed": "20 km/h"
+    },
+    {
+      "date": "2025-05-01",
+      "max_temp": "30°C",
+      "min_temp": "24°C",
+      "weather": "小雨",
+      "humidity": "66%",
+      "wind_speed": "24 km/h"
+    },
+    {
+      "date": "2025-05-02",
+      "max_temp": "31°C",
+      "min_temp": "24°C",
+      "weather": "多云",
+      "humidity": "45%",
+      "wind_speed": "15 km/h"
+    },
+    {
+      "date": "2025-05-03",
+      "max_temp": "38°C",
+      "min_temp": "15°C",
+      "weather": "中雨",
+      "humidity": "50%",
+      "wind_speed": "28 km/h"
+    }
+  ]
+}

@@ -24,6 +24,92 @@
 ## 技术架构
 
 - 后端：Django 4.2 + Django REST Framework
-- 数据库：PostgreSQL
+- 数据库：MySQL
 - 认证：JWT (JSON Web Token)
 - API文档：OpenAPI 3.0
+- 异步任务处理：Celery + Redis（高并发支持）
+- 消息队列：Redis
+- 缓存：Redis
+
+## 高并发设计
+
+系统使用Celery和Redis实现高并发任务处理，主要包括：
+
+1. **多队列设计**：根据不同应用模块设置独立的任务队列
+   - users：用户相关操作（注册、资料更新）
+   - life_assistant：生活助手任务（天气查询、快递跟踪）
+   - study_room：虚拟自习室任务（区块链记录、AI主持）
+   - personal_growth：个人提升相关任务
+   - campus_planning：校园规划相关任务
+
+2. **任务分发**：使用Redis作为消息代理，实现任务的高效分发和处理
+
+3. **异步处理**：将耗时操作（如邮件发送、第三方API调用）异步处理，避免阻塞主进程
+
+4. **结果缓存**：使用Redis缓存任务结果，提高重复查询性能
+
+5. **错误处理**：实现了自动重试、退避策略等容错机制
+
+## 安装与设置
+
+1. 克隆代码库并安装依赖：
+```bash
+git clone [仓库链接]
+cd CampusRainbow
+pip install -r requirements.txt
+```
+
+2. 配置Redis：
+```bash
+# Windows下使用Docker安装Redis
+docker run --name yunbao-redis -p 6379:6379 -d redis
+
+# 或在Linux下安装
+sudo apt update
+sudo apt install redis-server
+sudo systemctl start redis-server
+```
+
+3. 设置环境变量（创建.env文件）：
+```
+SECRET_KEY=your-secret-key
+DEBUG=True
+DB_NAME=yunbao
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
+DB_HOST=localhost
+DB_PORT=3306
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
+```
+
+## 运行项目
+
+1. 启动Django服务器：
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+2. 启动Celery Worker（各种启动方式）：
+
+```bash
+# 启动所有队列的worker
+python start_celery.py
+
+# 启动特定队列的worker
+python start_celery.py --queue=users,default
+
+# 启动高并发worker
+python start_celery.py --concurrency=4
+
+# 启动定时任务调度器
+python start_celery.py --beat
+
+# 启动Flower监控界面
+python start_celery.py --flower
+```
+
+## API文档
+
+API文档可以通过访问项目根路径下的'校园云宝.openapi.json'文件获取。

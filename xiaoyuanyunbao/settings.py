@@ -89,7 +89,7 @@ DATABASES = {
     }
 }
 
-# Password validation
+# 密码校验
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -135,6 +135,14 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
     'EXCEPTION_HANDLER': 'core.utils.custom_exception_handler',
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '30/minute',
+        'user': '100/minute',
+    },
 }
 
 # JWT 设置
@@ -157,12 +165,34 @@ SIMPLE_JWT = {
 APPEND_SLASH = False
 
 # Celery 设置
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/0')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://localhost:6379/1')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', 'redis://localhost:6379/0')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
+# 高并发Celery任务设置
+CELERY_TASK_ACKS_LATE = True  # 确保任务完成后再确认
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1  # 控制预取任务数量，避免任务分配不均
+CELERY_TASK_TIME_LIMIT = 60 * 5  # 单个任务的时间限制（5分钟）
+CELERY_TASK_SOFT_TIME_LIMIT = 60 * 3  # 软时间限制（3分钟）
+CELERY_WORKER_MAX_TASKS_PER_CHILD = 1000  # 防止内存泄漏
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'visibility_timeout': 3600,  # 1小时
+    'max_connections': 100,  # Redis连接池最大连接数
+}
+CELERY_REDIS_MAX_CONNECTIONS = 20  # Redis连接池大小
+CELERY_TASK_DEFAULT_QUEUE = 'default'  # 默认队列
+
+# 定义不同的队列用于不同类型的任务
+CELERY_TASK_ROUTES = {
+    'apps.user.tasks.*': {'queue': 'users'},
+    'apps.life_assistant.tasks.*': {'queue': 'life_assistant'},
+    'apps.virtual_study_room.tasks.*': {'queue': 'study_room'},
+    'apps.personal_growth.tasks.*': {'queue': 'personal_growth'},
+    'apps.campus_planning.tasks.*': {'queue': 'campus_planning'},
+}
 
 # CORS设置
 CORS_ALLOW_ALL_ORIGINS = True  # 开发环境允许所有源
@@ -192,3 +222,74 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+# 安全日志配置
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'security': {
+            'format': '{levelname} {asctime} {message} [user:{user}] [ip:{ip}] [path:{path}]',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'security_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/security.log'),
+            'maxBytes': 1024*1024*5,  # 5 MB
+            'backupCount': 10,
+            'formatter': 'security',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'security': {
+            'handlers': ['security_file', 'console', 'mail_admins'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'user.auth': {
+            'handlers': ['security_file', 'console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
+# 创建日志目录
+if not os.path.exists(os.path.join(BASE_DIR, 'logs')):
+    os.makedirs(os.path.join(BASE_DIR, 'logs'))

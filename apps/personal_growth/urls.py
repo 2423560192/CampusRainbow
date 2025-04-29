@@ -7,7 +7,8 @@ from .views import (
     FragmentTaskView, ResourceRecommendView, ResourceFavoriteView,
     AutoTaskView, AutoTaskCancelView, TestAIGeneratePlanView,
     TaskListCreateView, TaskDetailView, TaskStartView, TaskPauseView,
-    PomodoroSessionListCreateView, PomodoroSessionDetailView
+    PomodoroSessionListCreateView, PomodoroSessionDetailView,
+    TaskRecommendView, TaskStatusView
 )
 
 urlpatterns = [
@@ -16,10 +17,12 @@ urlpatterns = [
     path('tasks/auto_execute', AutoTaskView.as_view()),  # 设置自动执行
     path('tasks/auto_execute/<str:task_id>/cancel', AutoTaskCancelView.as_view()),  # 取消自动执行
     # 任务路由
-    path('tasks', TaskListCreateView.as_view()),  # 列表和创建
-    path('tasks/<str:task_id>', TaskDetailView.as_view()),  # 详情、更新和删除
+    path('tasks', TaskListCreateView.as_view(), name='task-list-create'),
+    path('tasks/<str:task_id>', TaskDetailView.as_view(), name='task-detail'),
     path('tasks/<str:task_id>/start', TaskStartView.as_view()),  # 启动任务
     path('tasks/<str:task_id>/pause', TaskPauseView.as_view()),  # 暂停/重启任务
+    path('tasks/<int:pk>/recommend/', TaskRecommendView.as_view(), name='task-recommend'),
+    path('tasks/status/<str:task_id>/', TaskStatusView.as_view(), name='task-status'),
 
     # 学习计划路由
     path('plans', PlanCreateView.as_view()),  # 创建计划

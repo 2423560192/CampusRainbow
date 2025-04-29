@@ -10,4 +10,18 @@ celery==5.3.1
 redis==4.6.0
 channels==4.0.0
 # 添加CORS支持
-django-cors-headers==4.1.0 
+django-cors-headers==4.1.0
+# Celery监控和管理工具
+flower==2.0.1
+# Celery任务事件处理
+eventlet==0.33.3
+# Redis连接池管理
+django-redis==5.2.0
+# 适用于Windows的Celery依赖
+gevent==23.7.0
+# 任务结果处理
+django-celery-results==2.5.1
+# 数据处理和可视化
+numpy==1.24.3
+matplotlib==3.7.1
+Pillow==9.5.0 

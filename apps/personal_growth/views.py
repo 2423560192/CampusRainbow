@@ -18,6 +18,9 @@ from core.utils import success_response, error_response
 import json
 from django.utils import timezone
 import datetime
+from celery.result import AsyncResult
+from django.conf import settings
+from core.utils import get_task_result
 
 # 尝试导入 dateutil，如果不可用，后面会使用替代方法
 try:
@@ -167,7 +170,12 @@ class FragmentTaskView(APIView):
             # 创建碎片任务
             fragment_tasks = []
             for i in range(total_fragments):
-                fragment_name = f"{original_task.task_name}（碎片{i + 1}）"
+                # 限制任务名称长度，确保不超过数据库列限制（假设最大为50个字符）
+                base_name = original_task.task_name
+                if len(base_name) > 40:  # 预留10个字符给碎片标识
+                    base_name = base_name[:37] + "..."
+                
+                fragment_name = f"{base_name}（碎片{i + 1}）"
                 fragment_task = Plan.objects.create(
                     user=request.user,
                     task_name=fragment_name,
@@ -410,22 +418,37 @@ class TaskListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        """创建任务计划（含存钱计划）"""
+        """创建任务计划（含存钱计划）- 使用Celery异步处理高并发"""
         # 使用新的符合API文档的序列化器
         serializer = TaskCreateSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            plan = serializer.save()
-            # 返回的数据格式也符合API文档
+            # 高并发模式：将任务创建委派给Celery异步处理
+            from .tasks import create_task_plan
+            task = create_task_plan.delay(request.user.id, serializer.validated_data)
+            
+            # 立即返回任务状态，不阻塞请求
             return success_response(
                 data={
-                    "task_id": str(plan.id),
-                    "title": plan.task_name,
-                    "status": plan.status,
-                    "created_at": plan.created_at.isoformat()
+                    "task_id": task.id,
+                    "status": "processing",
+                    "message": "任务正在异步创建中，可通过任务ID查询状态"
                 },
-                message="任务创建成功",
-                code=201
+                message="任务创建请求已接收",
+                code=202  # 202 Accepted - 请求已接受但处理尚未完成
             )
+            
+            # 原先的同步模式代码注释掉以作对比：
+            # plan = serializer.save()
+            # return success_response(
+            #     data={
+            #         "task_id": str(plan.id),
+            #         "title": plan.task_name,
+            #         "status": plan.status,
+            #         "created_at": plan.created_at.isoformat()
+            #     },
+            #     message="任务创建成功",
+            #     code=201
+            # )
         return error_response(message=serializer.errors, code=400)
 
     def get(self, request):
@@ -1355,3 +1378,73 @@ class TestAIGeneratePlanView(APIView):
         else:
             print(f"Test serializer errors: {serializer.errors}")
             return error_response(message=serializer.errors, code=400)
+
+
+class TaskStatusView(APIView):
+    """获取任务创建状态"""
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, task_id):
+        """
+        获取Celery异步任务的状态和结果
+        """
+        # 获取任务状态
+        result = get_task_result(task_id)
+        
+        if result['status'] == 'SUCCESS':
+            # 任务成功，返回任务结果
+            return success_response(
+                data=result['result'],
+                message="任务已完成",
+                code=200
+            )
+        elif result['status'] == 'FAILURE':
+            # 任务失败，返回错误信息
+            return error_response(
+                message=f"任务执行失败: {result.get('error', '未知错误')}",
+                code=500
+            )
+        else:
+            # 任务仍在进行中
+            return success_response(
+                data={"status": result['status']},
+                message="任务处理中",
+                code=202
+            )
+
+
+class TaskRecommendView(APIView):
+    """推荐任务相关资源"""
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, pk):
+        """获取关于特定任务的推荐资源"""
+        try:
+            task = get_object_or_404(Plan, id=pk, user=request.user)
+            
+            # 这里应该根据任务内容生成推荐
+            # 为了演示，我们生成一些示例推荐
+            recommendations = [
+                {
+                    "title": f"关于{task.task_name}的学习资料",
+                    "type": "article",
+                    "url": f"https://example.com/articles/{pk}"
+                },
+                {
+                    "title": f"{task.task_name}最佳实践",
+                    "type": "video",
+                    "url": f"https://example.com/videos/{pk}"
+                },
+                {
+                    "title": f"{task.task_name}专题讨论",
+                    "type": "forum",
+                    "url": f"https://example.com/forums/{pk}"
+                }
+            ]
+            
+            return success_response(
+                data={"recommendations": recommendations},
+                message="获取推荐成功"
+            )
+        except Plan.DoesNotExist:
+            return error_response(message="任务不存在", code=404)
